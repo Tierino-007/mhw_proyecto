@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:math';
+import 'monstruo.dart';
+import 'usuario.dart';
 
 class Combate {
   int? _vidaUsuario;
@@ -26,6 +28,11 @@ class Combate {
   }
 
   pelea() {
+    vidaMonstruo =Monstruo().vida;
+    vidaUsuario = Usuario().vida;
+    ataqueMonstruo = Monstruo().ataque;
+    ataqueUsuario = Usuario().ataque;
+    
     bool golpear = pegar();
       do {
         pegar();

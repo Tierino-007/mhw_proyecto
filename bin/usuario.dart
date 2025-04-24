@@ -1,18 +1,37 @@
 import 'dart:io';
 import 'database.dart';
 class Usuario {
-  String _nombre = "Pepe";
-  String _pasword = "FallOut";
-  int _nivel = 0;
+  int? _id;
+  String? _nombre;
+  String? _pasword;
+  int? _nivel;
+  static int? _vida;
+  static int? _ataque;
 
-  String get nombre => _nombre;
-  String get pasword => _pasword;
-
-  set nombre (String nombre){
-    _nombre=nombre;
+  int? get id => _id;
+  String? get nombre => _nombre;
+  String? get pasword => _pasword;
+  int? get nivel => _nivel;
+  int? get vida => _vida;
+  int? get ataque => _ataque;
+  
+  set id(int? id) {
+    _id = id;
   }
-  set pasword (String pasword){
-    _pasword=pasword;
+  set nombre(String? nombre) {
+    _nombre = nombre;
+  } 
+  set pasword(String? pasword) {
+    _pasword = pasword;
+  }
+  set nivel(int? nivel) {
+    _nivel = nivel;
+  }
+  set vida(int? vida) {
+    _vida = vida;
+  }
+  set ataque(int? ataque) {
+    _ataque = ataque;
   }
 
   registro() async{
