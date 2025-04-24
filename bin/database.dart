@@ -16,8 +16,7 @@ class DataBase {
     try{
       await _crearBBDD(conn);
       await _crearTablaUsuarios(conn);
-      await _crearTablaCliente(conn);
-      await _crearTablaProducto(conn);
+      await _crearTablaMonstruo(conn);
     } catch(e){
       print(e);
     } finally {
@@ -46,12 +45,13 @@ class DataBase {
     idusuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(10) NOT NULL,
-    nivel INT DEFAULT (0),
-    vida INT DEFAULT (0)
+    nivel INT DEFAULT (1),
+    vida INT DEFAULT (100)
+    daño INT DEFAULT (15),
   )''');
   }
   
-  static _crearTablaCliente(MySqlConnection conn)async{
+  static _crearTablaMonstruo(MySqlConnection conn)async{
     try{
       await conn.query('USE dartapi');
       print("conexion OK");
@@ -66,23 +66,6 @@ class DataBase {
     }catch(e){
       print(e);
     }finally{
-    }
-  }
-
-  static _crearTablaProducto(MySqlConnection conn)async{
-    try{
-      await conn.query('USE dartapi');
-      print("conexion OK");
-      await conn.query(
-        '''CREATE TABLE IF NOT EXISTS productos (
-        idarma INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        nombre VARCHAR(50) NOT NULL,
-        daño INT,
-        )''');
-    }catch(e){
-      print(e);
-    }finally{
-      await conn.close();
     }
   }
 }
