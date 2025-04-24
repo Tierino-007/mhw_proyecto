@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'usuario.dart';
-import 'cliente.dart';
-import 'producto.dart';
 
 menuInicio()async{
   print("¿Que uieres hacer?");
