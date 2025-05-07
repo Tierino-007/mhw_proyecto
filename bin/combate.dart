@@ -27,7 +27,12 @@ class Combate {
     _ataqueMonstruo = ataqueM;
   }
 
-  obtenerDatos (var monstruo) async{
+  obtenerDatosUsuario (var usuario) async{
+    vidaUsuario = usuario.vida;
+    ataqueUsuario = usuario.ataque;
+  }
+
+  obtenerDatosMonstruo (var monstruo) async{
     if (monstruo.especie == "Elder Dragon") {
       vidaMonstruo = 1000;
       ataqueMonstruo = 100;
@@ -87,12 +92,11 @@ class Combate {
   }
 
   pelea() async{
-    vidaUsuario = Usuario().vida;
-    ataqueUsuario = Usuario().ataque;
-    
     bool? golpear;
     Monstruo monstruo = await Monstruo.obtenerMonstruo(Monstruo.obtenerId());
-    obtenerDatos(monstruo);
+    obtenerDatosMonstruo(monstruo);
+    Usuario usuario = Usuario();
+    obtenerDatosUsuario(usuario);
       do {
         print("Monstruo: ${monstruo.nombre}");
         print("Vida Usuario: $vidaUsuario");

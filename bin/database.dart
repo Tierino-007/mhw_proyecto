@@ -4,7 +4,7 @@ class DataBase {
   static const String _host = 'localhost';
   static const int _port = 3306;
   static const String _user = 'root';
-  static const String _nombreBBDD = 'miProyectoMh';
+  static const String nombreBBDD = 'miProyectoMh';
 
   static instalarBBDD() async {
     var settings = ConnectionSettings(
@@ -28,25 +28,26 @@ class DataBase {
       host: _host,
       port: _port,
       user: _user,
-      db: _nombreBBDD,
+      db: nombreBBDD,
     );
     return await MySqlConnection.connect(settings);
   }
 
   static _crearBBDD(MySqlConnection conn) async {
-    await conn.query('CREATE DATABASE IF NOT EXISTS $_nombreBBDD');
-    await conn.query('USE $_nombreBBDD');
-    print('Conectado a $_nombreBBDD');
+    await conn.query('CREATE DATABASE IF NOT EXISTS $nombreBBDD');
+    await conn.query('USE $nombreBBDD');
+    print('Conectado a $nombreBBDD');
   }
 
   static _crearTablaUsuarios(MySqlConnection conn) async {
+    await conn.query('USE $nombreBBDD');
     await conn.query('''CREATE TABLE IF NOT EXISTS usuarios(
     idusuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(10) NOT NULL,
     nivel INT DEFAULT (1),
     vida INT DEFAULT (500),
-    daño INT DEFAULT (50),
+    daño INT DEFAULT (50)
   )''');
   }
 }

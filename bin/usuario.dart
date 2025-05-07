@@ -1,12 +1,15 @@
 import 'dart:io';
+import 'package:mysql1/mysql1.dart';
+
+import 'database.dart';
 import 'database.dart';
 class Usuario {
   int? _id;
   String? _nombre;
   String? _pasword;
   int? _nivel;
-  static int? _vida = 500;
-  static int? _ataque = 50;
+  int? _vida;
+  int? _ataque;
 
   int? get id => _id;
   String? get nombre => _nombre;
@@ -34,6 +37,34 @@ class Usuario {
     _ataque = ataque;
   }
 
+  Usuario();
+  Usuario.BBDD(ResultRow datosUsu){
+    id  = datosUsu["idusuario"];
+    nombre = datosUsu["nombre"];
+    pasword = datosUsu["password"];
+    nivel = datosUsu["nivel"];
+    vida = datosUsu["vida"];
+    ataque = datosUsu["ataque"];
+  }
+
+  static Future <List<Usuario>> infoUsuario()async{
+    List<Usuario> usuarios= [];
+    var conn = await DataBase.obtenerConexion();
+    try{
+      var resultados = await conn.query("SELECT * FROM  ${DataBase.nombreBBDD}" );
+      for (var datosUsuario in resultados){
+        Usuario usuario = Usuario.BBDD(datosUsuario);
+        usuarios.add(usuario);
+      }
+    }catch(e){
+      print(e);
+    }finally{
+      await conn.close();
+    }
+    return usuarios;
+  }
+
+
   registro() async{
     bool creado = true;
     var conn = await DataBase.obtenerConexion();
@@ -43,7 +74,7 @@ class Usuario {
       stdout.writeln("introduce tu contraseña");
       pasword=stdin.readLineSync() ?? "ERROR";
       try{
-        await conn.query('USE dartapi');
+        await conn.query('USE ${DataBase.nombreBBDD}');
         var resultado1 = await conn.query(
           'SELECT nombre FROM usuarios WHERE nombre = ?',
           [nombre]);
@@ -69,7 +100,7 @@ class Usuario {
     stdout.writeln("introduce tu nombre");
     nombre=stdin.readLineSync() ?? "ERROR";
     try{
-      await conn.query('USE dartapi');
+      await conn.query('USE ${DataBase.nombreBBDD}');
       var resultado3 = await conn.query(
         'SELECT nombre FROM usuarios WHERE nombre = ?',
         [nombre]);
