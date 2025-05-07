@@ -58,8 +58,7 @@ class Monstruo {
   }
 
   static Future imprimirMonstruo() async {
-    int id = obtenerId();
-    Monstruo monstruo = await obtenerMonstruo(id);
+    Monstruo monstruo = await obtenerMonstruo(obtenerId());
     print("ID: ${monstruo.id}");
     print("Nombre: ${monstruo.nombre}");
     print("Tipo: ${monstruo.tipo}");

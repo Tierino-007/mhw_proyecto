@@ -27,26 +27,88 @@ class Combate {
     _ataqueMonstruo = ataqueM;
   }
 
-  pelea() {
-    vidaMonstruo =Monstruo().vida;
+  obtenerDatos (var monstruo) async{
+    if (monstruo.especie == "Elder Dragon") {
+      vidaMonstruo = 1000;
+      ataqueMonstruo = 100;
+    } 
+      else if (monstruo.especie == "flying Wyvern") {
+      vidaMonstruo = 500;
+      ataqueMonstruo = 50;
+    } 
+      else if (monstruo.especie == "brute Wyvern") {
+      vidaMonstruo = 500;
+      ataqueMonstruo = 50;
+    } 
+      else if (monstruo.especie == "piscine wyvern") {
+      vidaMonstruo = 500;
+      ataqueMonstruo = 50;
+    } 
+      else if (monstruo.especie == "bird wyvern") {
+      vidaMonstruo = 500;
+      ataqueMonstruo = 50;
+    } 
+      else if (monstruo.especie == "fanged wyvern") {
+      vidaMonstruo = 500;
+      ataqueMonstruo = 50;
+    } 
+      else if (monstruo.especie == "herbivore") {
+      vidaMonstruo = 200;
+      ataqueMonstruo = 0;
+    } 
+      else if (monstruo.especie == "lynian") {
+      vidaMonstruo = 50;
+      ataqueMonstruo = 500;
+    } 
+      else if (monstruo.especie == "neopteron") {
+      vidaMonstruo = 250;
+      ataqueMonstruo = 25;
+    }
+     else if (monstruo.especie == "Fanged Beast") {
+      vidaMonstruo = 750;
+      ataqueMonstruo = 50;
+    } 
+      else if (monstruo.especie == "relict") {
+      vidaMonstruo = 750;
+      ataqueMonstruo = 75;
+    } 
+      else if (monstruo.especie == "wingdrake") {
+      vidaMonstruo = 100;
+      ataqueMonstruo = 25;
+    } 
+      else if (monstruo.especie == "fish") {
+      vidaMonstruo = 100;
+      ataqueMonstruo = 25;
+    }
+     else {
+      vidaMonstruo = 200;
+      ataqueMonstruo = 20;
+    }
+  }
+
+  pelea() async{
     vidaUsuario = Usuario().vida;
-    ataqueMonstruo = Monstruo().ataque;
     ataqueUsuario = Usuario().ataque;
     
-    bool golpear = pegar();
+    bool? golpear;
+    Monstruo monstruo = await Monstruo.obtenerMonstruo(Monstruo.obtenerId());
+    obtenerDatos(monstruo);
       do {
-        pegar();
+        print("Monstruo: ${monstruo.nombre}");
+        print("Vida Usuario: $vidaUsuario");
+        print("Vida Monstruo: $vidaMonstruo");
+        golpear = pegar();
       if (golpear){
         vidaMonstruo = vidaMonstruo! - ataqueUsuario!;
       }else{
         vidaUsuario = vidaUsuario! - ataqueMonstruo!;
       }
     } while (vidaUsuario! > 0 && vidaMonstruo! > 0);
+    print("Monstruo abatido");
   }
 
   bool pegar(){
     bool golpe = false;
-    do{
       int numeroSecreto=Random().nextInt(99)+1;
       stdout.writeln ("adivina el numero secreto");
       int intentos=0;
@@ -68,7 +130,6 @@ class Combate {
           break;
         }
       }
-    }while(golpe==false);
     return golpe;
   }
 }

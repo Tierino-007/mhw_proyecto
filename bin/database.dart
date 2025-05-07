@@ -16,7 +16,6 @@ class DataBase {
     try{
       await _crearBBDD(conn);
       await _crearTablaUsuarios(conn);
-      await _crearTablaMonstruo(conn);
     } catch(e){
       print(e);
     } finally {
@@ -46,26 +45,8 @@ class DataBase {
     nombre VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(10) NOT NULL,
     nivel INT DEFAULT (1),
-    vida INT DEFAULT (100)
-    daño INT DEFAULT (15),
+    vida INT DEFAULT (500),
+    daño INT DEFAULT (50),
   )''');
-  }
-  
-  static _crearTablaMonstruo(MySqlConnection conn)async{
-    try{
-      await conn.query('USE dartapi');
-      print("conexion OK");
-      await conn.query(
-        '''CREATE TABLE IF NOT EXISTS monstruos (
-        idmonstruo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        nombre VARCHAR(50) NOT NULL,
-        vida INT,
-        daño INT,
-        tipo VARCHAR(50)
-        )''');
-    }catch(e){
-      print(e);
-    }finally{
-    }
   }
 }

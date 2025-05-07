@@ -5,8 +5,8 @@ class Usuario {
   String? _nombre;
   String? _pasword;
   int? _nivel;
-  static int? _vida;
-  static int? _ataque;
+  static int? _vida = 500;
+  static int? _ataque = 50;
 
   int? get id => _id;
   String? get nombre => _nombre;
