@@ -34,6 +34,8 @@ menuInicio()async{
       print("");
       await combate.pelea();
       case 5:
+      print("Gracias por usar la aplicacion");
+      print("Hasta pronto cazador");
       salir = true;
       default:
       print("Opcion no valida");
