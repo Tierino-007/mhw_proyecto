@@ -4,6 +4,9 @@ import 'monstruo.dart';
 import 'combate.dart';
 
 menuInicio()async{
+  bool salir = false;
+  do{
+    print("");
   print("¿Que uieres hacer?");
   stdout.writeln("""
 1 -Registrarse. 
@@ -15,17 +18,25 @@ menuInicio()async{
   String respuesta0=stdin.readLineSync() ?? "ERROR";
   int eleccion=int.tryParse(respuesta0)??0;
   Usuario usuario = Usuario(); 
-  Monstruo monstruo = Monstruo();
   Combate combate = Combate();
 
     switch (eleccion){
-    case 1:
-    await usuario.registro();
-    case 2:
-    await usuario.login();
-    case 3:
-    await Monstruo.imprimirMonstruo();
-    case 4:
-    await combate.pelea();
-  }
+      case 1:
+      print("");
+      await usuario.registro();
+      case 2:
+      print("");
+      await usuario.login();
+      case 3:
+      print("");
+      await Monstruo.imprimirMonstruo();
+      case 4:
+      print("");
+      await combate.pelea();
+      case 5:
+      salir = true;
+      default:
+      print("Opcion no valida");
+    }
+  }while(salir==false);
 }

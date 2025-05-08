@@ -37,7 +37,7 @@ class Usuario {
   }
 
   Usuario();
-  Usuario.BBDD(ResultRow datosUsu){
+  Usuario.fromBBDD(ResultRow datosUsu){
     id  = datosUsu["idusuario"];
     nombre = datosUsu["nombre"];
     pasword = datosUsu["password"];
@@ -58,7 +58,7 @@ class Usuario {
         print("No estas registrado cazador");
       } else {
         for (var datosUsuario in resultados) {
-          return Usuario.BBDD(datosUsuario);
+          return Usuario.fromBBDD(datosUsuario);
         }
       }
     } catch (e) {
