@@ -4,32 +4,32 @@ import 'monstruo.dart';
 import 'usuario.dart';
 
 class Combate {
-  int? _vidaUsuario;
-  int? _vidaMonstruo;
-  int? _ataqueUsuario;
-  int? _ataqueMonstruo;
+  int _vidaUsuario = 0;
+  int _vidaMonstruo = 0;
+  int _ataqueUsuario = 0;
+  int _ataqueMonstruo = 0;
 
-  int? get vidaUsuario => _vidaUsuario;
-  int? get vidaMonstruo => _vidaMonstruo;
-  int? get ataqueUsuario => _ataqueUsuario;
-  int? get ataqueMonstruo => _ataqueMonstruo;
+  int get vidaUsuario => _vidaUsuario;
+  int get vidaMonstruo => _vidaMonstruo;
+  int get ataqueUsuario => _ataqueUsuario;
+  int get ataqueMonstruo => _ataqueMonstruo;
 
-  set vidaUsuario(int? vidaU) {
+  set vidaUsuario(int vidaU) {
     _vidaUsuario = vidaU;
   }
-  set vidaMonstruo(int? vidaM) {
+  set vidaMonstruo(int vidaM) {
     _vidaMonstruo = vidaM;
   }
-  set ataqueUsuario(int? ataqueU) {
+  set ataqueUsuario(int ataqueU) {
     _ataqueUsuario = ataqueU;
   }
-  set ataqueMonstruo(int? ataqueM) {
+  set ataqueMonstruo(int ataqueM) {
     _ataqueMonstruo = ataqueM;
   }
 
   obtenerDatosUsuario (var usuario) async{
-    vidaUsuario = usuario.vida;
-    ataqueUsuario = usuario.ataque;
+    vidaUsuario = usuario.vida ?? 500;
+    ataqueUsuario = usuario.ataque ?? 50;
   }
 
   obtenerDatosMonstruo (var monstruo) async{
@@ -58,8 +58,8 @@ class Combate {
       ataqueMonstruo = 50;
     } 
       else if (monstruo.especie == "herbivore") {
-      vidaMonstruo = 200;
-      ataqueMonstruo = 0;
+      vidaMonstruo = 500;
+      ataqueMonstruo = 50;
     } 
       else if (monstruo.especie == "lynian") {
       vidaMonstruo = 50;
@@ -86,37 +86,42 @@ class Combate {
       ataqueMonstruo = 25;
     }
      else {
-      vidaMonstruo = 200;
-      ataqueMonstruo = 20;
+      vidaMonstruo = 250;
+      ataqueMonstruo = 25;
     }
   }
 
   pelea() async{
     bool? golpear;
+
     Monstruo monstruo = await Monstruo.obtenerMonstruo(Monstruo.obtenerId());
-    obtenerDatosMonstruo(monstruo);
-    Usuario usuario = Usuario();
-    obtenerDatosUsuario(usuario);
+     await obtenerDatosMonstruo(monstruo);
+    Usuario usuario = await Usuario.conseguirUsuario();
+    await obtenerDatosUsuario(usuario);
+
       do {
         print("Monstruo: ${monstruo.nombre}");
         print("Vida Usuario: $vidaUsuario");
         print("Vida Monstruo: $vidaMonstruo");
         golpear = pegar();
       if (golpear){
-        vidaMonstruo = vidaMonstruo! - ataqueUsuario!;
+        vidaMonstruo = vidaMonstruo - ataqueUsuario;
       }else{
-        vidaUsuario = vidaUsuario! - ataqueMonstruo!;
+        vidaUsuario = vidaUsuario - ataqueMonstruo;
       }
-    } while (vidaUsuario! > 0 && vidaMonstruo! > 0);
+    } while (vidaUsuario > 0 && vidaMonstruo > 0);
     print("Monstruo abatido");
   }
 
   bool pegar(){
     bool golpe = false;
-      int numeroSecreto=Random().nextInt(99)+1;
-      stdout.writeln ("adivina el numero secreto");
+      int numeroSecreto=Random().nextInt(49)+1;
+      stdout.writeln (
+        """adivina el numero secreto
+        entre 1 y 50"""
+      );
       int intentos=0;
-      int intMAX=10;
+      int intMAX=7;
       while(intentos<intMAX){
         String respuesta= stdin.readLineSync() ?? "error";
         int? numero = int.tryParse(respuesta);

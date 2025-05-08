@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'package:mysql1/mysql1.dart';
+import 'database.dart';
 
-import 'database.dart';
-import 'database.dart';
 class Usuario {
   int? _id;
   String? _nombre;
@@ -47,21 +46,27 @@ class Usuario {
     ataque = datosUsu["ataque"];
   }
 
-  static Future <List<Usuario>> infoUsuario()async{
-    List<Usuario> usuarios= [];
+  static Future<Usuario> conseguirUsuario() async {
     var conn = await DataBase.obtenerConexion();
-    try{
-      var resultados = await conn.query("SELECT * FROM  ${DataBase.nombreBBDD}" );
-      for (var datosUsuario in resultados){
-        Usuario usuario = Usuario.BBDD(datosUsuario);
-        usuarios.add(usuario);
+    try {
+      print("Cual es tu nombre cazador?");
+      String? nombreCazador = stdin.readLineSync() ?? "ERROR";
+      var resultados = await conn.query(
+        "SELECT * FROM  usuarios WHERE nombre = ?", [nombreCazador]
+      );
+      if (resultados.isEmpty) {
+        print("No estas registrado cazador");
+      } else {
+        for (var datosUsuario in resultados) {
+          return Usuario.BBDD(datosUsuario);
+        }
       }
-    }catch(e){
+    } catch (e) {
       print(e);
-    }finally{
+    } finally {
       await conn.close();
     }
-    return usuarios;
+    throw Exception("Unexpected error: No user returned");
   }
 
 
@@ -89,7 +94,7 @@ class Usuario {
         }
       }catch(e){
         print(e);
-      }finally{
+      } finally{
         await conn.close();
       }
     }while(creado==false);
